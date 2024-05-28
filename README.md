@@ -1,6 +1,4 @@
-# NodeJs, Express, EJS & MongoDB Blog - CRUD
-
-![alt text](/readme-image.jpg?raw=true)
+# NodeJs, Express, EJS & MongoDB Blog
 
 ## You need:
 - NodeJs
