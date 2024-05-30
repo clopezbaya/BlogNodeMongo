@@ -22,24 +22,24 @@ jobs:
         run: npm install
 
       - name: Run tests
-        env:
-          MONGO_URL: ${{ secrets.MONGO_URL }}
+        # env:
+        #   MONGO_URL: ${{ secrets.MONGO_URL }}
         run: npm run test
 
-      - name: Build Docker image
-        run: docker build . -t your-dockerhub-username/ci-cd-blog:latest
+      # - name: Build Docker image
+      #   run: docker build . -t your-dockerhub-username/ci-cd-blog:latest
 
-      - name: Push Docker image
-        run: docker push your-dockerhub-username/ci-cd-blog:latest
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      # - name: Push Docker image
+      #   run: docker push your-dockerhub-username/ci-cd-blog:latest
+      #   env:
+      #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Deploy to AWS
-        run: |
-          aws ecs update-service --cluster your-cluster --service your-service --force-new-deployment
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-east-1'
-          MONGO_URL: ${{ secrets.MONGO_URL }}
+      # - name: Deploy to AWS
+      #   run: |
+      #     aws ecs update-service --cluster your-cluster --service your-service --force-new-deployment
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: 'us-east-1'
+      #     MONGO_URL: ${{ secrets.MONGO_URL }}
