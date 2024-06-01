@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { connectDB } = require('../server/config/db'); // Importa la función connectDB desde tu archivo
+const { connectDB } = require('../../server/config/db'); // Importa la función connectDB desde tu archivo
 
 jest.mock('mongoose'); // Mockea el módulo mongoose
 

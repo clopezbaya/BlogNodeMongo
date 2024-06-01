@@ -1,26 +1,17 @@
-version: '3.8'
-
+version: '3'
 services:
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-
-  blog:
+  app:
     build:
       context: .
-    container_name: blog
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - .:/app
     depends_on:
-      - mongo
+      - selenium
 
-volumes:
-  mongo-data:
-
+  selenium:
+    image: selenium/standalone-chrome:latest
+    ports:
+      - "3000:3000"
