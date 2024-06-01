@@ -11,6 +11,7 @@ describe('Google Search', function () {
         options.addArguments('headless'); // Ejecutar en modo headless
         options.addArguments('disable-gpu');
         options.addArguments('no-sandbox');
+        options.addArguments('disable-dev-shm-usage');
       
         driver = await new Builder()
           .forBrowser('chrome')

@@ -34,7 +34,7 @@ jobs:
           docker ps
 
       - name: Wait for the application to be ready
-        run: sleep 10s
+        run: sleep 30
 
       - name: Run Selenium tests
         run: npm run test:e2e
