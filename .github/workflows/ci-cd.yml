@@ -38,7 +38,7 @@ jobs:
 
       - name: Check if server is up
         run: |
-              SERVER_IP="tu.direccion.ip"
+              SERVER_IP="127.0.0.1"
               SERVER_PORTS=("80" "443" "3000") # Verificar los puertos 80 y 443
               # Verificar si el servidor responde a ping
 
