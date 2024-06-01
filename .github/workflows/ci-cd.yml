@@ -36,6 +36,23 @@ jobs:
       - name: Wait for the application to be ready
         run: sleep 30
 
+      - name: Check if server is up
+        run: |
+              SERVER_IP="tu.direccion.ip"
+              SERVER_PORTS=("80" "443" "3000") # Verificar los puertos 80 y 443
+              # Verificar si el servidor responde a ping
+
+              # Verificar si los puertos están abiertos
+              for PORT in "${SERVER_PORTS[@]}"; do
+                echo "Checking port $PORT"
+                if nc -zv $SERVER_IP $PORT; then
+                  echo "Port $PORT is open"
+                else
+                  echo "Port $PORT is closed"
+                  exit 1
+                fi
+              done
+
       - name: Run Selenium tests
         run: npm run test:e2e
 
