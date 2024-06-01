@@ -1,11 +1,21 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
 const assert = require('assert');
+const chrome = require('selenium-webdriver/chrome');
+require('chromedriver');
 
 describe('Google Search', function () {
     let driver;
   
     before(async function () {
-      driver = await new Builder().forBrowser('chrome').build();
+        let options = new chrome.Options();
+        options.addArguments('headless'); // Ejecutar en modo headless
+        options.addArguments('disable-gpu');
+        options.addArguments('no-sandbox');
+      
+        driver = await new Builder()
+          .forBrowser('chrome')
+          .setChromeOptions(options)
+          .build();
     });
   
     after(async function () {
