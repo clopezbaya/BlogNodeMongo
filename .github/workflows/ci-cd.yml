@@ -9,6 +9,10 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,11 +25,25 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        # env:
-        #   MONGO_URL: ${{ secrets.MONGO_URL }}
+      - name: Run unit tests
         run: npm run test
 
+      - name: Start application
+        run: |
+          docker-compose up -d app
+          docker ps
+
+      - name: Wait for the application to be ready
+        run: sleep 10s
+
+      - name: Run Selenium tests
+        run: npm run test:e2e
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: mochawesome-report/mochawesome.html
       # - name: Build Docker image
       #   run: docker build . -t your-dockerhub-username/ci-cd-blog:latest
 
