@@ -50,9 +50,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: mochawesome-report/mochawesome.html
+          path: mochawesome-report
 
-          
+
       # - name: Build Docker image
       #   run: docker build . -t your-dockerhub-username/ci-cd-blog:latest
 
