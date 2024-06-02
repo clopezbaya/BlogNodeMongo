@@ -9,10 +9,6 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
-    services:
-      selenium:
-        image: selenium/standalone-chrome:latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,25 +29,28 @@ jobs:
           docker-compose up -d app
           docker ps
 
-      - name: Wait for the application to be ready
-        run: sleep 30
-
+          - name: Wait for the application to be ready
+          run: |
+            echo "Waiting for web service to be healthy..."
+            while ! curl -sSf http://localhost:3000 > /dev/null; do
+              echo "Waiting for web service to be up..."
+              sleep 5
+            done
+            echo "Web service is up!"
+  
       - name: Check if server is up
         run: |
-              SERVER_IP="127.0.0.1"
-              SERVER_PORTS=("3000") # Verificar los puertos 80 y 443
-              # Verificar si el servidor responde a ping
-
-              # Verificar si los puertos están abiertos
-              for PORT in "${SERVER_PORTS[@]}"; do
-                echo "Checking port $PORT"
-                if nc -zv $SERVER_IP $PORT; then
-                  echo "Port $PORT is open"
-                else
-                  echo "Port $PORT is closed"
-                  exit 1
-                fi
-              done
+          SERVER_IP="127.0.0.1"
+          SERVER_PORTS=("3000") # Verificar el puerto 3000
+          for PORT in "${SERVER_PORTS[@]}"; do
+            echo "Checking port $PORT"
+            if nc -zv $SERVER_IP $PORT; then
+              echo "Port $PORT is open"
+            else
+              echo "Port $PORT is closed"
+              exit 1
+            fi
+          done
 
       - name: Run Selenium tests
         run: npm run test:e2e
