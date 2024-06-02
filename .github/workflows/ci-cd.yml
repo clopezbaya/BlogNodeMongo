@@ -9,6 +9,10 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,14 +33,14 @@ jobs:
           docker-compose up -d app
           docker ps
 
-          - name: Wait for the application to be ready
-          run: |
-            echo "Waiting for web service to be healthy..."
-            while ! curl -sSf http://localhost:3000 > /dev/null; do
-              echo "Waiting for web service to be up..."
-              sleep 5
-            done
-            echo "Web service is up!"
+      - name: Wait for the application to be ready
+        run: |
+          echo "Waiting for web service to be healthy..."
+          while ! curl -sSf http://localhost:3000 > /dev/null; do
+            echo "Waiting for web service to be up..."
+            sleep 5
+          done
+          echo "Web service is up!"
   
       - name: Check if server is up
         run: |
