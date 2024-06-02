@@ -9,10 +9,6 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
-    services:
-      selenium:
-        image: selenium/standalone-chrome:latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
