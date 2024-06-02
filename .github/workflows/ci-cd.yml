@@ -41,22 +41,7 @@ jobs:
             sleep 5
           done
           echo "Web service did not start in time"
-          docker logs blognodemongo_app_1
           exit 1
-  
-      - name: Check if server is up
-        run: |
-          SERVER_IP="127.0.0.1"
-          SERVER_PORTS=("3000") # Verificar el puerto 3000
-          for PORT in "${SERVER_PORTS[@]}"; do
-            echo "Checking port $PORT"
-            if nc -zv $SERVER_IP $PORT; then
-              echo "Port $PORT is open"
-            else
-              echo "Port $PORT is closed"
-              exit 1
-            fi
-          done
 
       - name: Run Selenium tests
         run: npm run test:e2e
