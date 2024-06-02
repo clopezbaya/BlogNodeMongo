@@ -3,7 +3,7 @@ const assert = require('assert');
 const chrome = require('selenium-webdriver/chrome');
 require('chromedriver');
 
-describe('Google Search', function () {
+describe('Blog Node/Mongo', function () {
     let driver;
   
     before(async function () {
