@@ -9,10 +9,6 @@ jobs:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
-    services:
-      selenium:
-        image: selenium/standalone-chrome:latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,10 +16,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run unit tests
         run: npm run test
@@ -34,7 +30,18 @@ jobs:
           docker ps
 
       - name: Wait for the application to be ready
-        run: sleep 10s
+        run: |
+          echo "Waiting for web service to be healthy..."
+          for i in {1..5}; do
+            if curl -sSf http://localhost:3000 > /dev/null; then
+              echo "Web service is up!"
+              exit 0
+            fi
+            echo "Waiting for web service to be up ($i/5)..."
+            sleep 5
+          done
+          echo "Web service did not start in time"
+          exit 1
 
       - name: Run Selenium tests
         run: npm run test:e2e
@@ -43,7 +50,19 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: mochawesome-report/mochawesome.html
+          path: mochawesome-report
+
+      - name: Set up SonarCloud
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.sources=.
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
       # - name: Build Docker image
       #   run: docker build . -t your-dockerhub-username/ci-cd-blog:latest
 

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+
   "scripts": {
     "test": "jest",
     "test:e2e": "mocha ./tests/e2e/selenium.js --reporter mochawesome --timeout 10000",
@@ -27,6 +28,7 @@
     "selenium-webdriver": "^4.21.0"
   },
   "devDependencies": {
+    "chromedriver": "^125.0.3",
     "jest": "^27.4.7",
     "mocha": "^10.4.0",
     "mochawesome": "^7.1.3",
