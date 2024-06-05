@@ -79,3 +79,8 @@ jobs:
         with:
           name: sonarcloud-analysis-report
           path: coverage/lcov.info
+      - name: Display SonarCloud analysis result
+        run: |
+          echo "SonarCloud analysis complete. Report is available at: ${{ steps.sonarcloud.outputs.web_url }}"
+          echo "Output details:"
+          echo "${{ steps.sonarcloud.outputs }}"
