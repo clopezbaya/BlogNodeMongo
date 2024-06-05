@@ -53,22 +53,11 @@ jobs:
           path: mochawesome-report
 
       - name: Set up SonarCloud
-        id: sonarcloud
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.sources=.
-            -Dsonar.tests=.
-            -Dsonar.test.inclusions=**/*.test.js
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.junit.reportPaths=results/test-sonar-results.xml
-            -Dsonar.branch.name=${{ github.ref_name }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      - name: Upload SonarCloud analysis report
-        run: |
-          mkdir -p sonarcloud-results
-          echo "SonarCloud analysis complete. Report is available at: ${{ steps.sonarcloud.outputs.web_url }}"
