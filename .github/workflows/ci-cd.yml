@@ -53,6 +53,7 @@ jobs:
           path: mochawesome-report
 
       - name: Set up SonarCloud
+        id: sonarcloud
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
