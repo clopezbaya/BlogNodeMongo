@@ -66,3 +66,8 @@ jobs:
             -Dsonar.branch.name=${{ github.ref_name }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Upload SonarCloud analysis report
+        run: |
+          mkdir -p sonarcloud-results
+          echo "SonarCloud analysis complete. Report is available at: ${{ steps.sonarcloud.outputs.web_url }}"
