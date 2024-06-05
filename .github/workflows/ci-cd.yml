@@ -53,7 +53,7 @@ jobs:
           path: mochawesome-report
 
       - name: Set up SonarCloud
-        uses: SonarSource/sonarcloud-github-action@pre-prod
+        uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
