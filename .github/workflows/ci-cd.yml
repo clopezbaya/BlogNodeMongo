@@ -72,3 +72,10 @@ jobs:
         run: |
           mkdir -p sonarcloud-results
           echo "SonarCloud analysis complete. Report is available at: ${{ steps.sonarcloud.outputs.web_url }}"
+      
+      - name: Upload SonarCloud analysis report
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: sonarcloud-analysis-report
+          path: coverage/lcov.info
