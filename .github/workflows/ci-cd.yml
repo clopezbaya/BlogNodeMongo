@@ -38,7 +38,7 @@ jobs:
         
       - name: Check container logs
         run: |
-          docker logs $(docker ps -q --filter "name=app")
+          docker logs $(docker ps -q --filter "name=blognodemongo-app-1")
         
       - name: Wait for the application to be ready
         run: |
