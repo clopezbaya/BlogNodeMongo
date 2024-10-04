@@ -35,7 +35,11 @@ jobs:
         run: |
           docker-compose up -d app
           docker ps
-
+        
+      - name: Check container logs
+        run: |
+          docker logs $(docker ps -q --filter "name=app")
+        
       - name: Wait for the application to be ready
         run: |
           echo "Waiting for web service to be healthy..."
@@ -49,6 +53,7 @@ jobs:
           done
           echo "Web service did not start in time"
           exit 1
+        
 
       - name: Run Selenium tests
         run: npm run test:e2e
