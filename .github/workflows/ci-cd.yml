@@ -21,14 +21,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Agregar instalación de Docker Compose
-      - name: Install Docker Compose
+      # Instalar Docker Compose desde el binario
+      - name: Install Docker and Docker Compose
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker-compose-plugin
-          
-      - name: Verify Docker Compose installation
-        run: docker-compose version
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+          DOCKER_COMPOSE_VERSION=2.20.0
+          sudo curl -L "https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose version
 
       - name: Start application
         run: |
